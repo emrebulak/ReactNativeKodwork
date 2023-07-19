@@ -1,18 +1,21 @@
-import { View, Text, Button } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import React from 'react';
 import styles from './FavoritedJobs.style';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
+//Componenets
+import FavoriteJobCard from '../../components/FavoriteJobCard';
 
 const FavoritedJobs = ({ navigation }: any) => {
     const jobs = useSelector((state: any) => state.jobs.value);
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button onPress={() => navigation.goBack()} title="Go back Jobs" />
 
+    return (
+        <View style={styles.container}>
             {
-                jobs.map((j: any, i: any) => <Text key={i}>{j}</Text>)
+                jobs.length <= 0 && (<View style={styles.emptyJobs}><Text style={styles.emptyJobsText}>Favorilere eklenmiş iş bulunamadı</Text></View>)
             }
 
+            <FlatList keyExtractor={(item: any) => item.id} data={jobs} renderItem={(item: any) => <FavoriteJobCard value={item} />} />
         </View>
     )
 }

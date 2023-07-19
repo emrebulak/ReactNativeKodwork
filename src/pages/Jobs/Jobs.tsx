@@ -1,9 +1,6 @@
-import { View, Text, Button, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
+import React, {useState } from 'react';
 import styles from './Jobs.style';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { add } from '../../features/jobs/jobsService';
 
 //Componenets
 import Loading from '../../components/Loading';
@@ -18,15 +15,11 @@ import { API_URL } from '@env';
 
 const Jobs = ({ navigation }: any) => {
 
-    const [page, setPage] = useState(2);
-
-    const jobs = useSelector((state: any) => state.jobs.value);
-    const dispatch = useDispatch();
-
+    const [page, setPage] = useState(0);
     const { data, loading, error }: any = useFetch(`${API_URL}=${page}`);
 
     let keyExtractor = (item: any) => item.id;
-    let renderItem = ({ item }: any) => <JobCard value={item} />;
+    let renderItem = ({ item }: any) => <JobCard value={item} navigation={navigation} />;
 
     if (loading) {
         return (
